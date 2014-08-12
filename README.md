@@ -89,7 +89,7 @@ RabbitMQ Test Cases
 
 # (direct)routing
 - a message goes to the queues whose binding key exactly matches the routing key of the message.
-- ruby publisher_routing.rb info # send message with :routing_key => info
+- $ ruby publisher_routing.rb info # send message with :routing_key => info
 ```
 [x] Sent message no.1
 [x] Sent message no.2
@@ -97,7 +97,7 @@ RabbitMQ Test Cases
 ...
 ```
 
-- ruby subscriber_routing.rb info
+- $ ruby subscriber_routing.rb info
 ```
 [*] Waiting for message in amq.gen-FVOFaRbMyH079kE_ffb0eQ. To exit press Ctrl+C
 [x] Received message no.1
@@ -109,7 +109,7 @@ RabbitMQ Test Cases
 ...
 ```
 
-- ruby subscriber_routing.rb xxxx
+- $ruby subscriber_routing.rb xxxx
 ```
 [*] Waiting for message in amq.gen-FVOFaRbMyH079kE_ffb0eQ. To exit press Ctrl+C
 <no message received>
@@ -117,7 +117,7 @@ RabbitMQ Test Cases
 
 # topic
 - direct exchange still has limitations - it can't do routing based on multiple criteria, top is more flexible
-- ruby publisher_topic.rb kern.critical
+- $ ruby publisher_topic.rb kern.critical
 ```
 [x] Sent message no.1
 [x] Sent message no.2
@@ -125,7 +125,7 @@ RabbitMQ Test Cases
 ...
 ```
 
-- ruby subscriber_topic.rb *.critical
+- $ ruby subscriber_topic.rb *.critical
 ```
 [*] Waiting for message in amq.gen-yGwZSw0OSCsZeIrQzkgffA. To exit press Ctrl+C
 [x] Received : message no.1
@@ -137,7 +137,7 @@ RabbitMQ Test Cases
 ...
 ```
 
-- ruby subscriber_topic.rb *.somethingelse
+- $ ruby subscriber_topic.rb *.somethingelse
 ```
 [*] Waiting for message in amq.gen-yGwZSw0OSCsZeIrQzkgffA. To exit press Ctrl+C
 <no message>
@@ -145,19 +145,13 @@ RabbitMQ Test Cases
 
 # RPC
 - Use RabbitMQ to build an RPC system: a client and a scalable RPC server
-- ruby rpc_server.rb
+- $ ruby rpc_server.rb
 ```
 [x] Awaiting RPC requests
 [x] Received: 832040 = fib(30)
 ```
-- ruby rpc_client.rb
+- $ ruby rpc_client.rb
 ```
 [x] Requesting fib(30)
 [x] Got 832040
 ```
-
-
-
-
-
-
