@@ -53,4 +53,111 @@ RabbitMQ Test Cases
 [x] Done
 ```
 
-# publish/subscribe/exchange
+# broadcast
+- exchange types available: direct, topic, headers and fanout.
+- exchange type = fanout in this example, it broadcasts message to queues.
+- $ ruby publihser.rb
+```
+[x] Sent message no.1
+[x] Sent message no.2
+[x] Sent message no.3
+...
+```
+- $ ruby subscriber.rb  # start at least 2 subscribers
+- subscriber1
+```
+[*] Waiting for message in amq.gen-FVOFaRbMyH079kE_ffb0eQ. To exit press Ctrl+C
+[x] Received message no.1
+[x] Done
+[x] Received message no.2
+[x] Done
+[x] Received message no.3
+[x] Done
+...
+```
+- subscriber2
+```
+[*] Waiting for message in amq.gen-FVOFaRbMyH079kE_ffb0eQ. To exit press Ctrl+C
+[x] Received message no.1
+[x] Done
+[x] Received message no.2
+[x] Done
+[x] Received message no.3
+[x] Done
+...
+```
+
+# (direct)routing
+- a message goes to the queues whose binding key exactly matches the routing key of the message.
+- ruby publisher_routing.rb info # send message with :routing_key => info
+```
+[x] Sent message no.1
+[x] Sent message no.2
+[x] Sent message no.3
+...
+```
+
+- ruby subscriber_routing.rb info
+```
+[*] Waiting for message in amq.gen-FVOFaRbMyH079kE_ffb0eQ. To exit press Ctrl+C
+[x] Received message no.1
+[x] Done
+[x] Received message no.2
+[x] Done
+[x] Received message no.3
+[x] Done
+...
+```
+
+- ruby subscriber_routing.rb xxxx
+```
+[*] Waiting for message in amq.gen-FVOFaRbMyH079kE_ffb0eQ. To exit press Ctrl+C
+<no message received>
+```
+
+# topic
+- direct exchange still has limitations - it can't do routing based on multiple criteria, top is more flexible
+- ruby publisher_topic.rb kern.critical
+```
+[x] Sent message no.1
+[x] Sent message no.2
+[x] Sent message no.3
+...
+```
+
+- ruby subscriber_topic.rb *.critical
+```
+[*] Waiting for message in amq.gen-yGwZSw0OSCsZeIrQzkgffA. To exit press Ctrl+C
+[x] Received : message no.1
+[x] Done
+[x] Received : message no.2
+[x] Done
+[x] Received : message no.3
+[x] Done
+...
+```
+
+- ruby subscriber_topic.rb *.somethingelse
+```
+[*] Waiting for message in amq.gen-yGwZSw0OSCsZeIrQzkgffA. To exit press Ctrl+C
+<no message>
+```
+
+# RPC
+- Use RabbitMQ to build an RPC system: a client and a scalable RPC server
+- ruby rpc_server.rb
+```
+[x] Awaiting RPC requests
+[x] Received: 832040 = fib(30)
+```
+- ruby rpc_client.rb
+```
+[x] Requesting fib(30)
+[x] Got 832040
+```
+
+
+
+
+
+

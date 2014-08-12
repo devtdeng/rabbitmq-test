@@ -2,13 +2,19 @@
 
 require "bunny"
 
+if ARGV.empty?
+  abort "Usage: #{$0} [info] [warning] [error]"
+end
+
 conn = Bunny.new("amqp://test:test@172.16.80.181:5672")
 conn.start
 
 ch = conn.create_channel
-x = ch.fanout("logs")
+x = ch.direct("direct_logs")
 q = ch.queue("", :excluesive => true)
-q.bind(x)
+ARGV.each do |severity|
+  q.bind(x, :routing_key => severity)
+end
 
 puts "[*] Waiting for message in #{q.name}. To exit press Ctrl+C"
 
@@ -20,7 +26,7 @@ begin
     sleep 5.0
     puts "[x] Done"
 
-    # ch.ack(delivery_info.delivery_tag)
+    # ch.ack(delivery_info.delivery_tag)  # don't close channel here
   end
 rescue Interrupt => _
   ch.close
