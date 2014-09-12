@@ -5,15 +5,27 @@ RabbitMQ Test Cases
 ## install RabbitMQ server on Unbuntu
 - $ wget http://www.rabbitmq.com/releases/rabbitmq-server/v3.3.4/rabbitmq-server_3.3.4-1_all.deb
 - $ sudo dpkg -i rabbitmq-server_3.3.4-1_all.deb
+(rabbitmq user is also created)
 
-## start the server(if not running)
+## start/stop the server(if not running)
 - $ sudo invoke-rc.d rabbitmq-server start
+- $ sudo invoke-rc.d rabbitmq-server stop
+
+## create cluster
+- add user rabbitmq to sudo group(/etc/group), change login command to /bin/bash(/etc/passwd)
+- ssh login as user rabbitmq
+- $ RABBITMQ_NODE_PORT=5672 RABBITMQ_NODENAME=rabbit rabbitmq-server -detached
+- $ RABBITMQ_NODE_PORT=5673 RABBITMQ_NODENAME=hare rabbitmq-server -detached
+- $ rabbitmqctl -n hare stop_app
+- $ rabbitmqctl -n hare join_cluster rabbit@<hostname> --ram
+- $ rabbitmqctl -n hare start_app
+- $ rabbitmqctl -n <rabbit|hare> cluster_status
 
 ## create user
 (because existed guest account doens't support connection from remote host)
 - $ sudo rabbitmqctl add_user test test
 - $ sudo rabbitmqctl set_user_tags test administrator
-- $ sudo rabbitmqctl set_permissions test ".*" ".*" ".*"
+- $ sudo rabbitmqctl set_permissions test "." "." ".*"
 
 # Test Steps
 ## sender and receiver
