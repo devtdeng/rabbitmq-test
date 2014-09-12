@@ -5,29 +5,38 @@ RabbitMQ Test Cases
 ## install RabbitMQ server on Unbuntu
 - $ wget http://www.rabbitmq.com/releases/rabbitmq-server/v3.3.4/rabbitmq-server_3.3.4-1_all.deb
 - $ sudo dpkg -i rabbitmq-server_3.3.4-1_all.deb
-(rabbitmq user is also created)
+(user "rabbitmq" is also created)
 
 ## start/stop the server(if not running)
 - $ sudo invoke-rc.d rabbitmq-server start
+- $ sudo rabbitmqctl status
 - $ sudo invoke-rc.d rabbitmq-server stop
 
-## create cluster
-- add user rabbitmq to sudo group(/etc/group), change login command to /bin/bash(/etc/passwd)
-- ssh login as user rabbitmq
+## create cluster (on single machine, "ubuntu01" is my test VM hostname)
+- add user rabbitmq to sudo group(/etc/group), change login command to /bin/bash(in file /etc/passwd)
+- logout out and login as "rabbitmq"
 - $ RABBITMQ_NODE_PORT=5672 RABBITMQ_NODENAME=rabbit rabbitmq-server -detached
 - $ RABBITMQ_NODE_PORT=5673 RABBITMQ_NODENAME=hare rabbitmq-server -detached
 - $ rabbitmqctl -n hare stop_app
-- $ rabbitmqctl -n hare join_cluster rabbit@<hostname> --ram
+- $ rabbitmqctl -n hare join_cluster rabbit@ubuntu01 --ram  # ubuntu01 is hostname
 - $ rabbitmqctl -n hare start_app
-- $ rabbitmqctl -n <rabbit|hare> cluster_status
+- $ rabbitmqctl -n rabbit|hare cluster_status
+```
+Cluster status of node rabbit@ubuntu01 ...
+[{nodes,[{disc,[rabbit@ubuntu01]},{ram,[hare@ubuntu01]}]},
+ {running_nodes,[hare@ubuntu01,rabbit@ubuntu01]},
+ {cluster_name,<<"mycluster">>},
+ {partitions,[]}]
+...done.
+```
 
-## create user
+## create test user
 (because existed guest account doens't support connection from remote host)
 - $ sudo rabbitmqctl add_user test test
 - $ sudo rabbitmqctl set_user_tags test administrator
 - $ sudo rabbitmqctl set_permissions test "." "." ".*"
 
-# Test Steps
+# Test Cases
 ## sender and receiver
 - replace your server host/ip in *.rb files
 - $ gem install bunny
@@ -167,3 +176,29 @@ RabbitMQ Test Cases
 [x] Requesting fib(30)
 [x] Got 832040
 ```
+
+## queues mirroring(HA)
+- working...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
