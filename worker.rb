@@ -2,7 +2,7 @@
 
 require "bunny"
 
-conn = Bunny.new("amqp://test:test@172.16.80.181:5672")
+conn = Bunny.new("amqp://test:test@172.16.80.182:5672")
 conn.start
 
 ch = conn.create_channel
@@ -16,7 +16,7 @@ begin
     puts "[x] Received #{body}"
     # imitate some work
     # sleep body.count(".").to_i
-    sleep 5.0
+    # sleep 5.0
     puts "[x] Done"
 
     ch.ack(delivery_info.delivery_tag)

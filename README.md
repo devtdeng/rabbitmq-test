@@ -137,7 +137,7 @@ Cluster status of node rabbit@ubuntu01 ...
 ```
 
 # topic
-- direct exchange still has limitations - it can't do routing based on multiple criteria, top is more flexible
+- direct exchange still has limitations - it can't do routing based on multiple criteria, topic is more flexible
 - $ ruby publisher_topic.rb kern.critical
 ```
 [x] Sent message no.1

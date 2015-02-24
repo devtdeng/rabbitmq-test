@@ -6,12 +6,12 @@ if ARGV.empty?
   abort "Usage: #{$0} [info] [warning] [error]"
 end
 
-conn = Bunny.new("amqp://test:test@172.16.80.181:5672")
+conn = Bunny.new("amqp://test:test@172.16.80.182:5672")
 conn.start
 
 ch = conn.create_channel
 x = ch.direct("direct_logs")
-q = ch.queue("", :excluesive => true)
+q = ch.queue("", :excluesive => true, :auto_delete => true)
 ARGV.each do |severity|
   q.bind(x, :routing_key => severity)
 end
@@ -32,3 +32,6 @@ rescue Interrupt => _
   ch.close
   conn.close
 end
+
+ch.close
+conn.close

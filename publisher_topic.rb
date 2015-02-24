@@ -6,7 +6,7 @@ if ARGV.empty?
   abort "Usage: #{$0} [routing_key list]"
 end
 
-conn = Bunny.new("amqp://test:test@172.16.80.181:5672")
+conn = Bunny.new("amqp://test:test@172.16.80.182:5672")
 conn.start
 
 ch = conn.create_channel

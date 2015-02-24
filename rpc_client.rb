@@ -3,7 +3,7 @@
 require "bunny"
 require "thread"
 
-conn = Bunny.new("amqp://test:test@172.16.80.181:5672", :automatically_recover => false)
+conn = Bunny.new("amqp://test:test@172.16.80.182:5672", :automatically_recover => false)
 conn.start
 ch = conn.create_channel
 
