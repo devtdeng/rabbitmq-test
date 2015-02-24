@@ -13,7 +13,7 @@ RabbitMQ Test Cases
 - $ sudo invoke-rc.d rabbitmq-server stop
 
 ## create cluster (on single machine, "ubuntu01" is my test VM hostname)
-- add user rabbitmq to sudo group(/etc/group), change login command to /bin/bash(in file /etc/passwd)
+- $ sudo useradd -U -G sudo -s /bin/bash -m rabbitmq && sudo passwd rabbitmq
 - logout out and login as "rabbitmq"
 - $ RABBITMQ_NODE_PORT=5672 RABBITMQ_NODENAME=rabbit rabbitmq-server -detached
 - $ RABBITMQ_NODE_PORT=5673 RABBITMQ_NODENAME=hare rabbitmq-server -detached
